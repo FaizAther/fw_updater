@@ -1,0 +1,20 @@
+flowchart LR
+    subgraph flash [Flash — stored in .bin]
+        LMA["LMA\nload address\nwhere bytes are stored"]
+        TEXT[".text + .rodata\n0x08000000–0x080004a7"]
+        DINIT[".data initial values\n(after _etext)\n0 bytes today"]
+    end
+
+    subgraph ram [SRAM — runtime only for bss part in .bin sense]
+        VMA["VMA\nvirtual / run address"]
+        DATA[".data @ 0x20000000\n0 bytes today"]
+        BSS[".bss @ 0x20000000\nzeroed at startup"]
+        STACK["_stack 0x20018000"]
+    end
+
+    RESET["reset_handler\non boot"] -->|"copy bytes"| DINIT
+    DINIT -->|"→"| DATA
+    RESET -->|"zero fill"| BSS
+
+    TEXT --- LMA
+    DATA --- VMA

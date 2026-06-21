@@ -1,0 +1,19 @@
+flowchart LR
+    subgraph pc [On your PC]
+        C["firmware.c\n+ libopencm3"]
+        COMP["Compiler\narm-none-eabi-gcc -c"]
+        OBJ["firmware.o\n+ libopencm3 .o"]
+        LD["Linker\n-T app/app.ld"]
+        ELF["firmware.elf\n(addressed program)"]
+        OC["objcopy"]
+        BIN["firmware.bin\n1192 bytes"]
+    end
+
+    subgraph chip [On STM32 NUCLEO-F401RE]
+        FLASH["Flash 0x08000000\nvector + code"]
+        RAM["SRAM 0x20000000\nstack + variables"]
+    end
+
+    C --> COMP --> OBJ --> LD --> ELF --> OC --> BIN
+    BIN -->|"st-flash / OpenOCD"| FLASH
+    FLASH -->|"reset: CPU reads vectors"| RAM

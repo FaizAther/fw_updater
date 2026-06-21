@@ -55,6 +55,12 @@ With `sudo`, flash works — `shutdown command invoked` at the end is **normal s
 
 If flash succeeds but **no LED blink**, press reset and confirm **LD2** (green, PA5) — not LD3 (red, PB13, serial activity).
 
+## Documentation
+
+Deep dive on linker scripts, sections, vector table, and sizes (with diagrams):
+
+**[info/linker-guide.md](info/linker-guide.md)**
+
 ## VS Code
 
 1. Install recommended extensions: **Cortex-Debug**, **C/C++**

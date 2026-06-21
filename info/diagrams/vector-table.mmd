@@ -1,0 +1,19 @@
+flowchart TB
+    subgraph vt ["Vector table at 0x08000000 (first 428 bytes)"]
+        direction TB
+        W0["Word 0 @ 0x08000000\n0x20018000\nInitial SP → _stack"]
+        W1["Word 1 @ 0x08000004\n0x08000409\nReset → reset_handler"]
+        W2["Word 2 @ 0x08000008\nNMI handler"]
+        W3["Word 3 @ 0x0800000C\nHard fault handler"]
+        WN["Words 4…\nIRQ handlers\n(most → 0x08000405 default)"]
+    end
+
+    subgraph code ["Code in flash (not in vector table)"]
+        RH["reset_handler @ 0x08000408\ncopy .data, zero .bss"]
+        MAIN["main @ 0x080001ac\nyour firmware.c"]
+    end
+
+    CPU["CPU on reset"] --> W0
+    CPU --> W1
+    W1 --> RH
+    RH --> MAIN

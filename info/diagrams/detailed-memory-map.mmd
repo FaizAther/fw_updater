@@ -1,0 +1,19 @@
+flowchart TB
+    subgraph flash ["Flash 0x08000000 – 0x0807FFFF (512 KB total)"]
+        direction TB
+        V["0x08000000\nvector_table\n428 B"]
+        M["0x080001ac\nmain()\n56 B"]
+        L["0x080001e4\nlibopencm3 GPIO/RCC\n~548 B"]
+        R["0x08000408\nreset_handler"]
+        E["0x080004a8\n_etext END"]
+        F["~511 KB FREE\n(bootloader / growth)"]
+    end
+
+    subgraph ram ["SRAM 0x20000000 – 0x20017FFF (96 KB)"]
+        direction TB
+        D[".data — 0 B"]
+        B[".bss — 0 B"]
+        S["0x20018000\n_stack (SP)"]
+    end
+
+    V --> M --> L --> R --> E --> F

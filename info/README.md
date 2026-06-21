@@ -1,34 +1,40 @@
 # info/
 
-Reference documentation for the **fw_upgrade** project.
+Reference documentation for the **fw_upgrade** project (NUCLEO-F401RE).
 
-| Document | Description |
-|----------|-------------|
-| [linker-script-and-memory.md](linker-script-and-memory.md) | Full write-up: `app/app.ld`, ROM/RAM map, boot flow, NUCLEO-F401RE |
+## Start here
+
+| Document | Best for |
+|----------|----------|
+| **[linker-guide.md](linker-guide.md)** | **Full tutorial** — compiler vs linker vs chip, sections, sizes, vector table, your real addresses |
+| [linker-script-and-memory.md](linker-script-and-memory.md) | Shorter reference for `app/app.ld` and memory map |
 
 ## Diagram sources & rendered images
 
-| Source | Rendered (PNG / SVG) | Editable (draw.io) |
-|--------|----------------------|---------------------|
-| [diagrams/memory-map.mmd](diagrams/memory-map.mmd) | [memory-map.png](diagrams/memory-map.png) · [memory-map.svg](diagrams/memory-map.svg) | [memory-map.drawio](diagrams/memory-map.drawio) |
-| [diagrams/boot-sequence.mmd](diagrams/boot-sequence.mmd) | [boot-sequence.png](diagrams/boot-sequence.png) · [boot-sequence.svg](diagrams/boot-sequence.svg) | [boot-sequence.drawio](diagrams/boot-sequence.drawio) |
+Run `./render.sh` to regenerate PNG/SVG from `.mmd` files.
 
-**Chat vs local:** Cursor chat renders ` ```mermaid ` blocks in Markdown automatically — no PNG files involved. To get images on disk, use the venv below.
+| Diagram | PNG |
+|---------|-----|
+| Build pipeline | [build-pipeline.png](diagrams/build-pipeline.png) |
+| Object file sections | [object-sections.png](diagrams/object-sections.png) |
+| Linker role | [linker-role.png](diagrams/linker-role.png) |
+| VMA vs LMA | [vma-lma.png](diagrams/vma-lma.png) |
+| Detailed memory map | [detailed-memory-map.png](diagrams/detailed-memory-map.png) |
+| Vector table | [vector-table.png](diagrams/vector-table.png) |
+| Boot sequence | [boot-sequence.png](diagrams/boot-sequence.png) |
+| Memory map (overview) | [memory-map.png](diagrams/memory-map.png) |
+
+Sources: `diagrams/*.mmd` (Mermaid) · `diagrams/*.drawio` (editable in diagrams.net)
 
 ## Render diagrams locally
 
 ```sh
 cd info
 ./render.sh          # creates .venv, installs deps, outputs .png + .svg
-# or manually:
-source .venv/bin/activate
-python scripts/render_diagrams.py --all
 ```
 
-Setup (first time only):
-
 - Python venv: `info/.venv/` (gitignored)
-- Packages: `playwright`, `Pillow` — see [requirements.txt](requirements.txt)
+- Packages: [requirements.txt](requirements.txt) — `playwright`, `Pillow`
 - Downloads: Chromium (Playwright) + `vendor/mermaid.min.js` on first run
 
-Open `.drawio` files at [diagrams.net](https://app.diagrams.net) or with a Draw.io VS Code extension (not auto-exported to PNG yet).
+**Chat vs local:** Cursor chat renders ` ```mermaid ` blocks inline — no PNG files. Use `./render.sh` for images on disk.

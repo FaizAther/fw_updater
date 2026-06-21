@@ -1,0 +1,36 @@
+flowchart TB
+    subgraph sources [Input files]
+        FC["firmware.c"]
+        LIB["libopencm3_stm32f4.a\n(vector.o gpio.o rcc.o …)"]
+    end
+
+    subgraph objects [Object files .o each contain sections]
+        OT[".text — machine code"]
+        OV[".vectors — vector_table"]
+        OD[".data — init globals"]
+        OB[".bss — zero globals"]
+        OR[".rodata — constants"]
+    end
+
+    subgraph ld [Linker merges using app.ld]
+        MERGE["Assign addresses\n>rom / >ram"]
+    end
+
+    subgraph out [firmware.elf output sections]
+        ET[".text @ 0x08000000\n1192 bytes"]
+        ED[".data @ 0x20000000\n0 bytes today"]
+        EB[".bss @ 0x20000000\n0 bytes today"]
+    end
+
+    FC --> OT
+    FC --> OR
+    LIB --> OV
+    LIB --> OT
+    OT --> MERGE
+    OV --> MERGE
+    OR --> MERGE
+    OD --> MERGE
+    OB --> MERGE
+    MERGE --> ET
+    MERGE --> ED
+    MERGE --> EB
