@@ -20,12 +20,32 @@ include $(OPENCM3_DIR)/mk/genlink-config.mk
 LDSCRIPT = app/app.ld
 include $(OPENCM3_DIR)/mk/gcc-config.mk
 
-.PHONY: all clean flash flash-stlink
+# Always link stm32f4 lib even before first build (genlink skips -l if .a is missing).
+OPENCM3_LIB = $(OPENCM3_DIR)/lib/libopencm3_$(genlink_family).a
+LIBDEPS := $(OPENCM3_LIB)
+LDLIBS := $(filter-out -l -lopencm3_$(genlink_family),$(LDLIBS)) -lopencm3_$(genlink_family)
 
-all: $(PROJECT).elf $(PROJECT).bin
+JOBS ?= $(shell nproc 2>/dev/null || echo 1)
 
-clean:
+.DEFAULT_GOAL := all
+
+.PHONY: all clean flash flash-stlink libopencm3 libopencm3-clean compile_db
+
+all: $(OPENCM3_LIB) $(PROJECT).elf $(PROJECT).bin
+
+$(OPENCM3_LIB):
+	@echo "==> Building libopencm3 ($(genlink_family))..."
+	$(MAKE) -C $(OPENCM3_DIR) -j$(JOBS)
+
+clean: libopencm3-clean
 	$(RM) $(PROJECT).elf $(PROJECT).bin $(PROJECT).hex firmware.o firmware.d
+
+libopencm3:
+	$(MAKE) -C $(OPENCM3_DIR) -j$(JOBS)
+
+libopencm3-clean:
+	@echo "==> Cleaning libopencm3..."
+	$(MAKE) -C $(OPENCM3_DIR) clean
 
 flash: $(PROJECT).elf
 	@echo "==> Flashing $< via OpenOCD..."
@@ -39,3 +59,7 @@ flash-stlink: $(PROJECT).bin
 	@echo "==> Flash OK — verified. MCU is running."
 
 include $(OPENCM3_DIR)/mk/gcc-rules.mk
+
+# IDE: regenerate compile_commands.json + .clangd (clang/clangd, not arm-none-eabi-gcc)
+compile_db:
+	@PROJECT_ROOT="$(CURDIR)" CC="$(CC)" OPENCM3_DIR="$(OPENCM3_DIR)" python3 scripts/gen_compile_db.py

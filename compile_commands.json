@@ -1,0 +1,27 @@
+[
+  {
+    "directory": "/home/xubuntu/Code/stm32/fw_upgrade",
+    "arguments": [
+      "clang",
+      "--target=arm-none-eabi",
+      "-Os",
+      "-Wall",
+      "-Wextra",
+      "-ggdb3",
+      "-DSTM32F4",
+      "-DSTM32F401RET6",
+      "-I/home/xubuntu/Code/stm32/fw_upgrade/libopencm3/include",
+      "-isystem",
+      "/usr/lib/gcc/arm-none-eabi/13.2.1/include",
+      "-mcpu=cortex-m4",
+      "-mthumb",
+      "-mfloat-abi=hard",
+      "-mfpu=fpv4-sp-d16",
+      "-c",
+      "app/src/firmware.c",
+      "-o",
+      "firmware.o"
+    ],
+    "file": "app/src/firmware.c"
+  }
+]

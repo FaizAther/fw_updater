@@ -28,9 +28,9 @@ Found 1 stlink programmers
 ## Build
 
 ```sh
-cd libopencm3 && make -j$(nproc)   # once
 cd ..
-make                               # app/src/firmware.c → firmware.elf (app/app.ld)
+make                               # builds libopencm3 submodule + firmware
+make clean                         # cleans firmware and libopencm3
 make flash                         # OpenOCD
 make flash-stlink                  # st-flash @ 0x08000000
 ```
