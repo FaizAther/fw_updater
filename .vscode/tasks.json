@@ -1,0 +1,35 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build",
+            "type": "shell",
+            "command": "make",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": ["$gcc"]
+        },
+        {
+            "label": "Clean",
+            "type": "shell",
+            "command": "make clean",
+            "problemMatcher": []
+        },
+        {
+            "label": "Flash (OpenOCD)",
+            "type": "shell",
+            "command": "make flash",
+            "dependsOn": "Build",
+            "problemMatcher": []
+        },
+        {
+            "label": "Flash (st-flash)",
+            "type": "shell",
+            "command": "make flash-stlink",
+            "dependsOn": "Build",
+            "problemMatcher": []
+        }
+    ]
+}

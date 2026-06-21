@@ -1,0 +1,52 @@
+<mxfile host="app.diagrams.net" modified="2026-06-21T00:00:00.000Z" agent="fw_upgrade" version="22.1.0" type="device">
+  <diagram id="memory-map" name="Memory Map">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="title" value="NUCLEO-F401RE — Flash &amp; SRAM layout (standalone app)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=16;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="120" y="20" width="560" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="flash-box" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="80" y="70" width="320" height="420" as="geometry"/>
+        </mxCell>
+        <mxCell id="flash-label" value="Flash (ROM)&#xa;0x08000000 – 0x0807FFFF&#xa;512 KB" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontStyle=1;fontSize=12" vertex="1" parent="1">
+          <mxGeometry x="120" y="80" width="240" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="vt" value="vector_table&#xa;@ 0x08000000&#xa;(SP + reset vector)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="110" y="140" width="260" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="text" value=".text / .rodata&#xa;reset_handler, main(), libopencm3&#xa;~0x080001ac – 0x080004a8 (_etext)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="110" y="220" width="260" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="free" value="Unused flash&#xa;(bootloader / larger app later)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="110" y="310" width="260" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="flash-note" value="Programmed via:&#xa;make flash / st-flash @ 0x08000000" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="110" y="400" width="260" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="ram-box" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="480" y="70" width="320" height="420" as="geometry"/>
+        </mxCell>
+        <mxCell id="ram-label" value="SRAM (RAM)&#xa;0x20000000 – 0x20017FFF&#xa;96 KB" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontStyle=1;fontSize=12" vertex="1" parent="1">
+          <mxGeometry x="520" y="80" width="240" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="data" value=".data&#xa;initialized globals&#xa;(empty in current blinky)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="510" y="150" width="260" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="bss" value=".bss&#xa;zero-init globals&#xa;(empty in current blinky)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="510" y="230" width="260" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="stack" value="_stack @ 0x20018000&#xa;stack grows ↓ downward" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="510" y="320" width="260" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="copy-arrow" value="reset_handler copies&#xa;.data LMA → VMA" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#666666;dashed=1;" edge="1" parent="1" source="text" target="data">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="future" value="Future bootloader split:&#xa;0x08000000 = bootloader (16K)&#xa;0x08004000 = app + SCB_VTOR" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#ffffcc;strokeColor=#999999;size=14;align=left;" vertex="1" parent="1">
+          <mxGeometry x="80" y="510" width="720" height="60" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

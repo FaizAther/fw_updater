@@ -1,0 +1,17 @@
+sequenceDiagram
+    participant CPU
+    participant Flash as Flash 0x08000000
+    participant RH as reset_handler
+    participant M as main()
+
+    CPU->>Flash: Reset — read SP @ 0x08000000
+    CPU->>Flash: Read PC @ 0x08000004 → reset_handler
+    RH->>RH: Copy .data flash→RAM (none yet)
+    RH->>RH: Zero .bss (none yet)
+    RH->>M: main()
+    M->>M: Enable GPIOA clock
+    M->>M: PA5 output (LD2 green LED)
+    loop Forever
+        M->>M: gpio_toggle(PA5)
+        M->>M: delay()
+    end

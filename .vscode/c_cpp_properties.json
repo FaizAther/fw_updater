@@ -1,0 +1,20 @@
+{
+    "configurations": [
+        {
+            "name": "NUCLEO-F401RE",
+            "includePath": [
+                "${workspaceFolder}/libopencm3/include",
+                "${workspaceFolder}/**"
+            ],
+            "defines": [
+                "STM32F4",
+                "STM32F401RET6"
+            ],
+            "compilerPath": "/usr/bin/arm-none-eabi-gcc",
+            "cStandard": "c99",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "gcc-arm"
+        }
+    ],
+    "version": 4
+}

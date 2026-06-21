@@ -1,0 +1,15 @@
+flowchart TB
+    subgraph flash ["Flash 0x08000000 – 0x0807FFFF (512 KB)"]
+        VT["vector_table @ 0x08000000"]
+        CODE[".text: reset_handler, main, libopencm3…"]
+        RO[".rodata: string literals, const data"]
+    end
+
+    subgraph sram ["SRAM 0x20000000 – 0x20017FFF (96 KB)"]
+        DATA[".data — initialized globals"]
+        BSS[".bss — zero-init globals"]
+        STACK["stack ↓ grows down from top"]
+    end
+
+    VT --> CODE
+    flash -->|"startup copies .data"| DATA
